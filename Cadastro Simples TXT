@@ -1,0 +1,132 @@
+import tkinter as tk
+import os
+from tkinter import messagebox
+
+def salvar_no_arquivo(codigo, nome, rg, cpf, endereco, numero, bairro, cidade, estado, telefone, email):
+    with open('dados_de_inscricao.txt', 'a') as arquivo:
+        arquivo.write(f"Código: {codigo}\n")
+        arquivo.write(f"Nome: {nome}\n")
+        arquivo.write(f"RG: {rg}\n")
+        arquivo.write(f"CPF: {cpf}\n")
+        arquivo.write(f"Endereço: {endereco}\n")
+        arquivo.write(f"Número: {numero}\n")
+        arquivo.write(f"Bairro: {bairro}\n")
+        arquivo.write(f"Cidade: {cidade}\n")
+        arquivo.write(f"Estado: {estado}\n")
+        arquivo.write(f"Telefone: {telefone}\n")
+        arquivo.write(f"E-mail: {email}\n\n")
+
+def mostrar_dados_salvos():
+    if os.path.isfile('dados_de_inscricao.txt'):
+        with open('dados_de_inscricao.txt', 'r') as arquivo:
+            dados = arquivo.readlines()
+
+        janela = tk.Toplevel(root)
+        janela.title("Dados Salvos")
+
+        for i, linha in enumerate(dados):
+            label = tk.Label(janela, text=linha.strip())
+            label.grid(row=i, column=0)
+    else:
+        messagebox.showinfo("Arquivo", "Dados não encontrado")
+
+def main():
+    global root
+    root = tk.Tk()
+    root.title("Tela de Inscrição")
+    root.geometry("280x280") # Tamanho da janela
+    root.attributes('-toolwindow', 1) # Remove os botões de minimizar e maximizar
+
+    codigo_label = tk.Label(root, text="Código:")
+    codigo_label.grid(row=1, column=0)
+    codigo_entry = tk.Entry(root)
+    codigo_entry.grid(row=1, column=1)
+
+    nome_label = tk.Label(root, text="Nome:")
+    nome_label.grid(row=2, column=0)
+    nome_entry = tk.Entry(root)
+    nome_entry.grid(row=2, column=1)
+
+    rg_label = tk.Label(root, text="RG:")
+    rg_label.grid(row=3, column=0)
+    rg_entry = tk.Entry(root)
+    rg_entry.grid(row=3, column=1)
+
+    cpf_label = tk.Label(root, text="CPF:")
+    cpf_label.grid(row=4, column=0)
+    cpf_entry = tk.Entry(root)
+    cpf_entry.grid(row=4, column=1)
+
+    endereco_label = tk.Label(root, text="Endereço:")
+    endereco_label.grid(row=5, column=0)
+    endereco_entry = tk.Entry(root)
+    endereco_entry.grid(row=5, column=1)
+
+    numero_label = tk.Label(root, text="Número:")
+    numero_label.grid(row=6, column=0)
+    numero_entry = tk.Entry(root)
+    numero_entry.grid(row=6, column=1)
+
+    bairro_label = tk.Label(root, text="Bairro:")
+    bairro_label.grid(row=7, column=0)
+    bairro_entry = tk.Entry(root)
+    bairro_entry.grid(row=7, column=1)
+
+    cidade_label = tk.Label(root, text="Cidade:")
+    cidade_label.grid(row=8, column=0)
+    cidade_entry = tk.Entry(root)
+    cidade_entry.grid(row=8, column=1)
+
+    estado_label = tk.Label(root, text="Estado:")
+    estado_label.grid(row=9, column=0)
+    estado_entry = tk.Entry(root)
+    estado_entry.grid(row=9, column=1)
+
+    telefone_label = tk.Label(root, text="Telefone:")
+    telefone_label.grid(row=10, column=0)
+    telefone_entry = tk.Entry(root)
+    telefone_entry.grid(row=10, column=1)
+
+    email_label = tk.Label(root, text="E-mail:")
+    email_label.grid(row=11, column=0)
+    email_entry = tk.Entry(root)
+    email_entry.grid(row=11, column=1)
+
+    def submeter_dados():
+        codigo = codigo_entry.get()
+        nome = nome_entry.get()
+        rg = rg_entry.get()
+        cpf = cpf_entry.get()
+        endereco = endereco_entry.get()
+        numero = numero_entry.get()
+        bairro = bairro_entry.get()
+        cidade = cidade_entry.get()
+        estado = estado_entry.get()
+        telefone = telefone_entry.get()
+        email = email_entry.get()
+        salvar_no_arquivo(codigo, nome, rg, cpf, endereco, numero, bairro, cidade, estado, telefone, email)
+        messagebox.showinfo("Sucesso", "Usuário registrado com sucesso")
+
+    submeter_button = tk.Button(root, text="Salvar", command=submeter_dados)
+    submeter_button.grid(row=13, column=0, columnspan=1)
+
+    mostrar_dados_button = tk.Button(root, text="Mostrar Dados", command=mostrar_dados_salvos)
+    mostrar_dados_button.grid(row=13, column=1, columnspan=2)
+
+    fechar_button = tk.Button(root, text="Fechar", command=root.destroy)
+    fechar_button.grid(row=13, column=2, columnspan=5)
+
+    def center_window(win):
+        win.update_idletasks()
+        width = win.winfo_width()
+        height = win.winfo_height()
+        x = (win.winfo_screenwidth() // 2) - (width // 2)
+        y = (win.winfo_screenheight() // 2) - (height // 2)
+        win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+    center_window(root)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
